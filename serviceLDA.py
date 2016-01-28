@@ -60,7 +60,7 @@ def getModel():
 
 
 def getService(a):
-    doc_topic_, topic_word_ = getModel()
+    topic_word_, doc_topic_ = getModel()
     num = 11
     words = getWords()
     b = getList(words, a)
