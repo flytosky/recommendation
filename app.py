@@ -11,14 +11,20 @@ app.config['MYSQL_DATABASE_PASSWORD'] = "root"
 app.config['MYSQL_DATABASE_DB'] = "climateService"
 app.config['MYSQL_DATABASE_HOST'] = "localhost"
 
-topic_word_, doc_topic_ = serviceLDA.getModel()
+
+res_dict = {}
+words_dict = {}
 
 
 @app.route('/serviceRecommendation', methods=['POST'])
 def getRecommendation():
-    res_dict = {}
     string = request.json.get('keywords')
     strList = string.split(' ')
+    if "topic" in words_dict.keys():
+        topic_word_, doc_topic_ = words_dict["topic"], words_dict["words"]
+    else:
+        topic_word_, doc_topic_ = serviceLDA.getModel()
+        words_dict["topic"], words_dict["words"] = topic_word_, doc_topic_
     if string in res_dict.keys():
         return jsonify(id=res_dict[string][0], name=res_dict[string][1], url=res_dict[string][2])
     serviceId = serviceLDA.getService(strList, topic_word_, doc_topic_)
@@ -31,4 +37,4 @@ def getRecommendation():
 
 if __name__ == "__main__":
     app.debug = True
-    app.run(port=9033)
+    app.run(port=9020)
