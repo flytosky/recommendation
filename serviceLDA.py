@@ -59,8 +59,7 @@ def getModel():
     return model.topic_word_, model.doc_topic_
 
 
-def getService(a):
-    topic_word_, doc_topic_ = getModel()
+def getService(a, topic_word_, doc_topic_):
     num = 11
     words = getWords()
     b = getList(words, a)
